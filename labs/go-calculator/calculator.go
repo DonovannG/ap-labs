@@ -36,7 +36,7 @@ func calc(operator int, values []int) int {
 }
 
 func main() {
-	var arr [100]int
+	var arr [256]int
 	var oper int
 	op := os.Args[1]
 	if op == "add"{
@@ -59,5 +59,5 @@ func main() {
 	}
 	slice := arr[0:len(os.Args)-2]
 	result := calc(oper, slice)
-	fmt.Printf(" Result: %d\n", result)
+	fmt.Printf(" = %d\n", result)
 }
