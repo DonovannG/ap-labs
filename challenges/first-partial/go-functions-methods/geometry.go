@@ -133,7 +133,7 @@ func main() {
 		pointArr = generator(pointArr, sides+1)
 		for i := 0; i < sides-3; i++ {
 			if intersect(pointArr[i], pointArr[i+1], pointArr[i+2], pointArr[i+3]) == true {
-				println("An interseccion was detected, try again")
+				println("An interseccion between lines was detected, cannot create figure")
 				os.Exit(4)
 			} 
 		}
