@@ -1,3 +1,6 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 void quicksort(void *v[], int left, int right,
 	   int (*comp)(void *, void *))
