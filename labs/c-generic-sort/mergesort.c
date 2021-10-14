@@ -5,14 +5,14 @@ void merge(void *lineptr[], int a, int m, int b, int (*comp)(void *, void *))
     int sizeR = b - m;
   
     void *L[sizeL];
-		void *R[sizeR];
+	void *R[sizeR];
   
     for (i = 0; i < sizeL; i++) {
-			L[i] = lineptr[a + i];
-		}
+		L[i] = lineptr[a + i];
+	}
     for (j = 0; j < sizeR; j++) {
-			R[j] = lineptr[m + 1 + j];
-		}
+		R[j] = lineptr[m + 1 + j];
+	}
   
     i = 0;
     j = 0; 
