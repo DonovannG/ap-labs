@@ -12,18 +12,14 @@ void mergesort(void *lineptr[], int left, int right,
 // function for comparing two integer strings
 int cmpnum(void* s1, void* s2){
     int a = atoi(s1);
-    int b = atoi(s1);
+    int b = atoi(s2);
     if (a > b)
         return 1;
-    else if (a < b)
-        return -1;
     else
-        return 0;
+        return -1;
 }
 
 int main(int argc, char **argv){
-
-
 	if(argc < 4 || argc > 6) {
         if(argc == 1){
             printf("Error, only the following grammar is permitted\n");
@@ -53,9 +49,10 @@ int main(int argc, char **argv){
 	ssize_t read;
 	char *fName;
 	char *sort;
-	char output[255];
+	char output[50];
     int num = 0;
     int lines = 0;
+    int f = 0;
 
 	if(strcmp(argv[1], "-n") == 0) {
 		num = 1;
@@ -74,7 +71,7 @@ int main(int argc, char **argv){
 	}
 
     if(fp == NULL) {
-		printf("File %s doesn't exist\n", fName);
+		printf("Error, you sure the %s file exists?\n", fName);
 		return 0;
 	}	
 
@@ -84,7 +81,6 @@ int main(int argc, char **argv){
 
 	fseek(fp, 0, SEEK_SET);
 	char **arr = (char **)malloc(lines*sizeof(char*));
-	int f = 0;
 	while((read = getline(&arr[f], &len, fp)) != -1) {
 		f++;
 	}
