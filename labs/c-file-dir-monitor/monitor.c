@@ -8,11 +8,10 @@
 #include "logger.h"
 
 #define BUF_LEN (10 * (sizeof(struct inotify_event) + NAME_MAX + 1))
-
-int inotifyFd;
+int fd;
 
 static int displayInfo(const char *fpath, const struct stat *sb, int tflag, struct FTW *ftwbuf){
-    int wd = inotify_add_watch(inotifyFd, fpath, IN_CREATE | IN_DELETE | IN_MOVED_FROM | IN_MOVED_TO);
+    int wd = inotify_add_watch(fd, fpath, IN_CREATE | IN_DELETE | IN_MOVED_FROM | IN_MOVED_TO);
     if (wd == -1){
         errorf("Error in inotify_add_watch \n");
         exit(EXIT_FAILURE);
@@ -66,12 +65,12 @@ int main(int argc, char* argv[]){
     int nftwTrav;
     int fl = FTW_PHYS;
     char buf[BUF_LEN] __attribute__ ((aligned(8)));
-    ssize_t numRead;
-    char *p;
+    ssize_t NR;
+    char *pointer;
     struct inotify_event *event;
-    inotifyFd = inotify_init();
+    fd = inotify_init();
     
-    if (inotifyFd == -1){
+    if (fd == -1){
         errorf("Error in inotify_init \n");
         exit(EXIT_FAILURE);
     }
@@ -84,21 +83,21 @@ int main(int argc, char* argv[]){
 
     for(;;){
 
-        numRead = read(inotifyFd, buf, BUF_LEN);
-        if(numRead == 0){
+        NR = read(fd, buf, BUF_LEN);
+        if(NR == 0){
             panicf("read is 0 \n");
             exit(EXIT_FAILURE);
         }
 
-        if(numRead == -1){
+        if(NR == -1){
             errorf("Error in read() \n");
             exit(EXIT_FAILURE);
         }
 
-        for(p = buf; p < buf + numRead; ){
-            event = (struct inotify_event *) p;
+        for(pointer = buf; pointer < buf + NR; ){
+            event = (struct inotify_event *) pointer;
             displayInotifyEvent(event);
-            p += sizeof(struct inotify_event *) + event->len;
+            pointer += sizeof(struct inotify_event *) + event->len;
 
         }
 
