@@ -11,7 +11,7 @@
 
 int inotifyFd;
 
-static int display_info(const char *fpath, const struct stat *sb, int tflag, struct FTW *ftwbuf){
+static int displayInfo(const char *fpath, const struct stat *sb, int tflag, struct FTW *ftwbuf){
     int wd = inotify_add_watch(inotifyFd, fpath, IN_CREATE | IN_DELETE | IN_MOVED_FROM | IN_MOVED_TO);
     if (wd == -1){
         errorf("Error in inotify_add_watch \n");
@@ -76,7 +76,7 @@ int main(int argc, char* argv[]){
         exit(EXIT_FAILURE);
     }
 
-    nftwTrav = nftw(argv[1], display_info, 20, fl);
+    nftwTrav = nftw(argv[1], displayInfo, 20, fl);
     if(nftwTrav == -1){
         errorf("Error in nftw init \n");
         exit(EXIT_FAILURE);
@@ -86,7 +86,7 @@ int main(int argc, char* argv[]){
 
         numRead = read(inotifyFd, buf, BUF_LEN);
         if(numRead == 0){
-            panicf("read() from inotifyFd returned 0! \n");
+            panicf("read is 0 \n");
             exit(EXIT_FAILURE);
         }
 
@@ -102,12 +102,11 @@ int main(int argc, char* argv[]){
 
         }
 
-        nftwTrav = nftw(argv[1], display_info, 20, fl);
+        nftwTrav = nftw(argv[1], displayInfo, 20, fl);
         if(nftwTrav == -1){
             errorf("Error in nftw \n");
             exit(EXIT_FAILURE);
         }
     }
-
     exit(EXIT_SUCCESS);
 }
